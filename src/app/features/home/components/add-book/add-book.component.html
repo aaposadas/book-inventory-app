@@ -1,0 +1,65 @@
+  <div class="modal fade show d-block" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form (ngSubmit)="onAdd()">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Book by ISBN</h5>
+              <button
+                type="button"
+                class="btn-close"
+                (click)="close.emit()"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <!-- Manual ISBN Input -->
+              <div class="mb-3">
+                <label for="isbn" class="form-label">ISBN</label>
+                <input
+                  type="text"
+                  id="isbn"
+                  class="form-control"
+                  [(ngModel)]="isbn"
+                  name="isbn"
+                  placeholder="Enter ISBN number"
+                  required
+                  autofocus
+                />
+              </div>
+
+              <hr />
+
+              <!-- Barcode Scanner -->
+              <div class="mb-3">
+                <label class="form-label">Or Scan Barcode</label>
+                @if (scannerEnabled) {
+                <div class="border rounded p-2" [class.scanner-success]="scanSuccess">
+                  <zxing-scanner
+                    [formats]="formats"
+                    (scanSuccess)="handleScan($event)"
+                  ></zxing-scanner>
+
+                  @if (scanSuccess) {
+                  <div class="scanner-overlay mt-2">
+                    <div class="alert alert-success mb-0">{{ scanMessage }}</div>
+                  </div>
+                  }
+                </div>
+                }
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="close.emit()">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!isbn.trim() || loading">
+                @if (loading) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+                } Add Book
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>

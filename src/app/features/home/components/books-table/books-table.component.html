@@ -1,0 +1,35 @@
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Cover</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Categories</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (book of books; track book.id) {
+      <tr (click)="select.emit(book)" tabindex="0" role="button" class="cursor-pointer">
+        <td>
+          <img
+            src="{{ book.coverUrl || placeholder }}"
+            alt="{{ book.title + ' cover' }}"
+            class="img-thumbnail"
+            style="width: 60px; height: 80px; object-fit: cover"
+          />
+        </td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>
+          <div class="d-flex flex-wrap gap-1">
+            @for (c of book.categories; track c) {
+            <span class="badge bg-primary">{{ c }}</span>
+            }
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

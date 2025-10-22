@@ -1,0 +1,59 @@
+<div class="container mt-5" style="max-width: 400px">
+  <div class="card shadow">
+    <div class="card-body">
+      <h3 class="card-title mb-4">Login</h3>
+
+      @if (errorMessage()) {
+      <app-error-alert [error]="errorMessage()" (dismiss)="errorMessage.set('')"></app-error-alert>
+      }
+
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            [(ngModel)]="email"
+            name="email"
+            required
+            email
+            [disabled]="loading()"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            [(ngModel)]="password"
+            name="password"
+            required
+            [disabled]="loading()"
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+          [disabled]="loginForm.invalid || loading()"
+        >
+          @if (loading()) {
+          <span class="spinner-border spinner-border-sm me-2"></span>
+          Logging in... } @else { Login }
+        </button>
+      </form>
+
+      <div class="text-center mt-3">
+        <p class="text-muted">
+          Don't have an account?
+          <a routerLink="/register" class="text-decoration-none">Register here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

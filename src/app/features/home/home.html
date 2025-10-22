@@ -1,0 +1,88 @@
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1>{{ currentUser()?.firstName }}'s Books</h1>
+    </div>
+    <div>
+      <button class="btn btn-primary d-flex align-items-center" (click)="openAddModal()">
+        <mat-icon>add</mat-icon> Add Book
+      </button>
+    </div>
+  </div>
+
+  @if (loading()) {
+  <app-loading-state message="Loading books..."></app-loading-state>
+  } @if (error()) {
+  <app-error-alert [error]="error()!" (dismiss)="error.set(null)"></app-error-alert>
+  }
+
+  <!-- Empty State -->
+  @if (!loading() && books().length === 0) {
+  <div class="text-center py-5">
+    <p class="text-muted">No books in your collection yet.</p>
+    <button class="btn btn-primary" (click)="openAddModal()">Add Your First Book</button>
+  </div>
+  }
+
+  <!-- Books Table -->
+  @if (!loading() && books().length > 0) {
+  <app-books-table [books]="books()" (select)="openEditModal($event)"></app-books-table>
+  }
+</div>
+
+<!-- Add Book Modal -->
+@if (showAddModal()) {
+<app-add-book
+  [isbn]="isbnInput()"
+  (isbnChange)="isbnInput.set($event)"
+  [loading]="loading()"
+  [scannerEnabled]="scannerEnabled()"
+  [formats]="formats"
+  (add)="handleAdd($event)"
+  (added)="handleAddedBook($event)"
+  (close)="closeAddModal()"
+></app-add-book>
+}
+
+<!-- Edit/View Book Modal -->
+@if (showEditModal() && selectedBook()) {
+<app-edit-book
+  [book]="selectedBook()"
+  [isEditing]="isEditing()"
+  (close)="closeEditModal()"
+  (toggleEdit)="toggleEdit($event)"
+  (saveBook)="handleSaveBook($event)"
+  (delete)="handleDeletedBook($event); closeEditModal()"
+></app-edit-book>
+}
+
+<style>
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .cursor-pointer:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .cursor-pointer:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: -2px;
+  }
+
+  .modal.show {
+    display: block;
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    opacity: 0.5;
+  }
+</style>
