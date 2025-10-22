@@ -10,6 +10,7 @@ A modern Angular application for managing your personal book collection with sec
 - 📱 **Responsive Design** - Built with Bootstrap 5
 - ⚡ **Modern Angular** - Standalone components with Signals for reactive state management
 - 🎨 **Material Design** - Angular Material components for consistent UI
+- 🔄 **Reusable Components** - Shared loading states and error alerts for consistent UX
 
 ## Tech Stack
 
@@ -29,58 +30,67 @@ A modern Angular application for managing your personal book collection with sec
 ## Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/book-inventory-frontend.git
    cd book-inventory-frontend
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Configure environment**
-   
+
    Update `src/environments/environment.development.ts`:
+
    ```typescript
    export const environment = {
      production: false,
-     apiUrl: 'http://localhost:5000/api' // Your backend API URL
+     apiUrl: 'http://localhost:5000/api', // Your backend API URL
    };
    ```
 
 4. **Run development server**
+
    ```bash
    ng serve
    ```
 
 5. **Open browser**
-   
+
    Navigate to `http://localhost:4200`
 
 ## Development
 
 ### Run development server
+
 ```bash
 ng serve
 ```
 
 ### Run with custom port
+
 ```bash
 ng serve --port 4300
 ```
 
 ### Build for production
+
 ```bash
 ng build --configuration production
 ```
 
 ### Run tests
+
 ```bash
 ng test
 ```
 
 ### Run linter
+
 ```bash
 ng lint
 ```
@@ -100,11 +110,12 @@ src/
 │   │       └── auth.service.ts        # Authentication logic
 │   ├── features/               # Feature modules
 │   │   ├── auth/              # Login, Register components
-│   │   └── home/             # Book list, add, edit components
+│   │   └── books/             # Book list, add, edit components
 │   ├── shared/                # Shared components
 │   │   └── components/
 │   │       ├── navbar/        # Navigation bar
-            └── loading-state/        # Navigation bar
+│   │       ├── loading-state/ # Loading spinner component
+│   │       └── error-alert/   # Error message display
 │   ├── app.component.ts       # Root component
 │   ├── app.config.ts          # App configuration
 │   └── app.routes.ts          # Route definitions
@@ -115,46 +126,57 @@ src/
 ## Key Features Explained
 
 ### Authentication
+
 - **httpOnly Cookies** - JWT tokens stored securely in httpOnly cookies (not accessible via JavaScript)
 - **Auto Refresh** - Tokens automatically refresh before expiration
 - **Route Guards** - Protected routes redirect to login if not authenticated
 - **Session Management** - Clear session expired notifications
 
 ### State Management
+
 - **Angular Signals** - Reactive state without complex RxJS
 - **Computed Values** - Derived state automatically updates
 - **Centralized Auth State** - Single source of truth for user authentication
 
+### Shared Components
+
+- **Loading State** - Reusable loading spinner for async operations
+- **Error Alert** - Consistent error message display across the app
+- **Navbar** - Responsive navigation with authentication state
+
 ### HTTP Interceptors
+
 - **Auth Interceptor** - Automatically includes credentials with every request
 - **Error Interceptor** - Global error handling with user-friendly messages
 
 ## Environment Variables
 
 ### Development (`environment.development.ts`)
+
 ```typescript
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000/api'
+  apiUrl: 'http://localhost:5000/api',
 };
 ```
 
 ### Production (`environment.ts`)
+
 ```typescript
 export const environment = {
   production: true,
-  apiUrl: 'https://your-api.com/api'
+  apiUrl: 'https://your-api.com/api',
 };
 ```
 
 ## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm start` | Start development server |
-| `npm run build` | Build for production |
-| `npm test` | Run unit tests |
-| `npm run lint` | Run ESLint |
+| Command         | Description                 |
+| --------------- | --------------------------- |
+| `npm start`     | Start development server    |
+| `npm run build` | Build for production        |
+| `npm test`      | Run unit tests              |
+| `npm run lint`  | Run ESLint                  |
 | `npm run watch` | Build and watch for changes |
 
 ## Browser Support
@@ -167,6 +189,7 @@ export const environment = {
 ## Backend Repository
 
 This frontend requires the Book Inventory API backend:
+
 - Repository: [Backend Repository](https://github.com/yourusername/book-inventory-api)
 - Make sure the backend is running before starting the frontend
 
